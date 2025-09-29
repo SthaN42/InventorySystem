@@ -43,7 +43,7 @@ private:
 	TObjectPtr<UInv_HUDWidget> HUDWidget;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory|Interaction")
-	TEnumAsByte<ECollisionChannel> ItemTraceChannel = ECC_WorldStatic;
+	TEnumAsByte<ECollisionChannel> ItemTraceChannel;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory|Interaction")
 	double TraceLength;
