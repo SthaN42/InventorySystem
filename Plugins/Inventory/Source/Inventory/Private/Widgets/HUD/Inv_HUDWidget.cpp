@@ -2,3 +2,29 @@
 
 
 #include "Widgets/HUD/Inv_HUDWidget.h"
+
+#include "InventoryManagement/Components/Inv_InventoryComponent.h"
+#include "InventoryManagement/Utils/Inv_InventoryStatics.h"
+#include "Widgets/HUD/Inv_InfoMessage.h"
+
+#define LOCTEXT_NAMESPACE "Inv_HUDWidget"
+
+void UInv_HUDWidget::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	UInv_InventoryComponent* InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer());
+	if (IsValid(InventoryComponent))
+	{
+		InventoryComponent->NoRoomInInventory.AddDynamic(this, &ThisClass::OnNoRoom);
+	}
+}
+
+void UInv_HUDWidget::OnNoRoom()
+{
+	if (!IsValid(InfoMessage)) return;
+
+	InfoMessage->SetMessage(LOCTEXT("WarningNoRoomInInventory", "No Room In Inventory."));
+}
+
+#undef LOCTEXT_NAMESPACE
