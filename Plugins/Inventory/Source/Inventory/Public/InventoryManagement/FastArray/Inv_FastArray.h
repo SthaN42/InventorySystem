@@ -44,7 +44,7 @@ public:
 	FInv_InventoryFastArray(UActorComponent* InOwnerComponent)
 	: OwnerComponent(InOwnerComponent) {}
 
-	TArray<FInv_InventoryEntry> GetAllItems() const;
+	TArray<UInv_InventoryItem*> GetAllItems() const;
 
 	//~ Begin FFastArraySerializer
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);
