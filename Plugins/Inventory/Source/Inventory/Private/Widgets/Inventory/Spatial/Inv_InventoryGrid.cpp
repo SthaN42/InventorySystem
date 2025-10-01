@@ -12,7 +12,7 @@
 #include "Items/Components/Inv_ItemComponent.h"
 #include "Items/Fragments/Inv_FragmentTags.h"
 #include "Items/Fragments/Inv_ItemFragment.h"
-#include "Widgets/GridSlots/Inv_GridSlot.h"
+#include "Widgets/Inventory/GridSlots/Inv_GridSlot.h"
 #include "Widgets/Utils/Inv_WidgetUtils.h"
 
 void UInv_InventoryGrid::NativeOnInitialized()
