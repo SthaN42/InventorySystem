@@ -8,6 +8,8 @@
 #include "StructUtils/InstancedStruct.h"
 #include "Inv_ItemManifest.generated.h"
 
+struct FInv_ItemFragment;
+
 /**
  * The Item Manifest contains all the necessary data
  * for creating a new Inventory Item
@@ -29,4 +31,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (Categories = "GameItems"))
 	FGameplayTag ItemType;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
+	TArray<TInstancedStruct<FInv_ItemFragment>> Fragments;
 };
