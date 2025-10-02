@@ -56,10 +56,10 @@ private:
 	void UpdateGridSlots(UInv_InventoryItem* NewItem, const int32 Index, bool bStackableItem, const int32 StackAmount);
 	bool IsIndexClaimed(const TSet<int32>& CheckedIndices, const int32 Index) const;
 	bool HasRoomAtIndex(const UInv_GridSlot* GridSlot, const FIntPoint& Dimensions, const TSet<int32>& CheckedIndices,
-						TSet<int32>& OutTentativelyClaimed, const FGameplayTag& ItemType);
+						TSet<int32>& OutTentativelyClaimed, const FGameplayTag& ItemType, const int32 MaxStackSize);
 	bool CheckSlotConstraints(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot,
 							  const TSet<int32>& CheckedIndices, TSet<int32>& OutTentativelyClaimed,
-							  const FGameplayTag& ItemType) const;
+							  const FGameplayTag& ItemType, const int32 MaxStackSize) const;
 	bool HasValidItem(const UInv_GridSlot* GridSlot) const;
 	bool IsUpperLeftSlot(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot) const;
 	bool DoesItemTypeMatch(const UInv_InventoryItem* Item, const FGameplayTag& ItemType) const;
