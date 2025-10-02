@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Inv_SlottedItem.generated.h"
 
+class UTextBlock;
 class UInv_InventoryItem;
 class UImage;
 
@@ -20,6 +21,8 @@ class INVENTORY_API UInv_SlottedItem : public UUserWidget
 
 public:
 	void SetImageBrush(const FSlateBrush& Brush) const;
+
+	void UpdateStackCount(const int32 StackCount);
 	
 	bool IsStackable() const { return bIsStackable; }
 	void SetIsStackable(bool bStackable) { bIsStackable = bStackable; }
@@ -38,6 +41,9 @@ public:
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> Image_Icon;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UTextBlock> Text_StackCount;
 
 	int32 GridIndex;
 	FIntPoint GridSize;
