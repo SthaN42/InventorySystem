@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Types/Inv_GridTypes.h"
+#include "Widgets/Utils/Inv_WidgetUtils.h"
 #include "Inv_InventoryStatics.generated.h"
 
 class UInv_ItemComponent;
@@ -23,4 +24,24 @@ public:
 	static UInv_InventoryComponent* GetInventoryComponent(const APlayerController* PlayerController);
 
 	static EInv_ItemCategory GetItemCategoryFromItemComp(const UInv_ItemComponent* ItemComp);
+
+	template <typename T, typename FuncT>
+	static void ForEach2D(TArray<T>& Array, const int32 Index, const FIntPoint& Range2D, const int32 GridColumns, const FuncT& Function);
 };
+
+template <typename T, typename FuncT>
+void UInv_InventoryStatics::ForEach2D(TArray<T>& Array, const int32 Index, const FIntPoint& Range2D, const int32 GridColumns, const FuncT& Function)
+{
+	for (int32 i = 0; i < Range2D.X; ++i)
+	{
+		for (int32 j = 0; j < Range2D.Y; ++j)
+		{
+			const FIntPoint Coordinates = UInv_WidgetUtils::GetPositionFromIndex(Index, GridColumns) + FIntPoint(i, j);
+			const int32 TileIndex = UInv_WidgetUtils::GetIndexFromPosition(Coordinates, GridColumns);
+			if (Array.IsValidIndex(TileIndex))
+			{
+				Function(Array[TileIndex]);
+			}
+		}
+	}
+}

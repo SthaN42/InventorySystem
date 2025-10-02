@@ -80,8 +80,14 @@ void UInv_InventoryGrid::UpdateGridSlots(UInv_InventoryItem* NewItem, const int3
 {
 	check(GridSlots.IsValidIndex(Index));
 
-	UInv_GridSlot* GridSlot = GridSlots[Index];
-	GridSlot->SetTexture(EInv_GridSlotState::Occupied);
+	const FInv_GridFragment* GridFragment = GetFragment<FInv_GridFragment>(NewItem, FragmentTags::GridFragment);
+
+	const FIntPoint Dimensions = GridFragment ? GridFragment->GetGridSize() : FIntPoint(1, 1);
+
+	UInv_InventoryStatics::ForEach2D(GridSlots, Index, Dimensions, Columns, [](UInv_GridSlot* GridSlot)
+	{
+		GridSlot->SetTexture(EInv_GridSlotState::Occupied);
+	});
 }
 
 void UInv_InventoryGrid::SetSlottedItemImage(const UInv_SlottedItem* SlottedItem, const FInv_GridFragment* GridFragment, const FInv_ImageFragment* ImageFragment) const
