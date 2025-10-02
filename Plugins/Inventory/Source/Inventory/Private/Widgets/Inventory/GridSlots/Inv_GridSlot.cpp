@@ -4,6 +4,12 @@
 #include "Widgets/Inventory/GridSlots/Inv_GridSlot.h"
 
 #include "Components/Image.h"
+#include "Items/Inv_InventoryItem.h"
+
+void UInv_GridSlot::SetInventoryItem(UInv_InventoryItem* Item)
+{
+	InventoryItem = Item;
+}
 
 void UInv_GridSlot::SetTexture(const EInv_GridSlotState SlotState)
 {
