@@ -152,6 +152,11 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 		if (IsIndexClaimed(CheckedIndices, GridSlot->GetTileIndex())) continue;
 
 		// Can the item fit here? (i.e., is it our of grid bounds?)
+		if (!HasRoomAtIndex(GridSlot, GetItemDimensions(Manifest)))
+		{
+			continue;
+		}
+
 		// Is there room at this index? (i.e., are there other items in the way?)
 		// Check other important conditions - ForEach2D over a 2D range
 			// Index claimed?
@@ -166,6 +171,24 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 	// How much is the Remainder?
 
 	return Result;
+}
+
+bool UInv_InventoryGrid::HasRoomAtIndex(const UInv_GridSlot* GridSlot, const FIntPoint& Dimensions)
+{
+	bool bHasRoomAtIndex = true;
+
+	UInv_InventoryStatics::ForEach2D(GridSlots, GridSlot->GetTileIndex(), Dimensions, Columns, []()
+	{
+		
+	});
+
+	return bHasRoomAtIndex;
+}
+
+FIntPoint UInv_InventoryGrid::GetItemDimensions(const FInv_ItemManifest& Manifest) const
+{
+	const FInv_GridFragment* GridFragment = Manifest.GetFragmentOfType<FInv_GridFragment>();
+	return GridFragment ? GridFragment->GetGridSize() : FIntPoint(1, 1);
 }
 
 void UInv_InventoryGrid::ConstructGrid()
