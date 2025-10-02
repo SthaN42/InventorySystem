@@ -3,7 +3,6 @@
 
 #include "Widgets/Inventory/Spatial/Inv_InventoryGrid.h"
 
-#include "IDetailTreeNode.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
@@ -176,7 +175,7 @@ bool UInv_InventoryGrid::HasRoomAtIndex(const UInv_GridSlot* GridSlot, const FIn
 	bool bHasRoomAtIndex = true;
 	UInv_InventoryStatics::ForEach2D(GridSlots, GridSlot->GetTileIndex(), Dimensions, Columns, [&](const UInv_GridSlot* SubGridSlot)
 	{
-		if (CheckSlotConstraints(SubGridSlot))
+		if (CheckSlotConstraints(CheckedIndices, OutTentativelyClaimed, SubGridSlot))
 		{
 			OutTentativelyClaimed.Add(SubGridSlot->GetTileIndex());
 		}
@@ -188,15 +187,30 @@ bool UInv_InventoryGrid::HasRoomAtIndex(const UInv_GridSlot* GridSlot, const FIn
 	return bHasRoomAtIndex;
 }
 
-bool UInv_InventoryGrid::CheckSlotConstraints(const UInv_GridSlot* SubGridSlot) const
+bool UInv_InventoryGrid::CheckSlotConstraints(const TSet<int32>& CheckedIndices, TSet<int32>& OutTentativelyClaimed,
+											  const UInv_GridSlot* SubGridSlot) const
 {
-	// Check other important conditions - ForEach2D over a 2D range
-		// Index claimed?
-		// Has valid item?
-		// Is this item the same type as the item we're trying to add?
-		// If so, is this a stackable item?
-		// If stackable, is this slot at the max stack size already?
+	// Index claimed?
+	if (IsIndexClaimed(CheckedIndices, SubGridSlot->GetTileIndex())) return false;
+
+	// Has valid item?
+	if (!HasValidItem(SubGridSlot))
+	{
+		OutTentativelyClaimed.Add(SubGridSlot->GetTileIndex());
+		return true;
+	}
+
+	// Is this Grid Slot an upper left slot?
+
+	// Is this item the same type as the item we're trying to add?
+	// If so, is this a stackable item?
+	// If stackable, is this slot at the max stack size already?
 	return false;
+}
+
+bool UInv_InventoryGrid::HasValidItem(const UInv_GridSlot* GridSlot) const
+{
+	return GridSlot->GetInventoryItem().IsValid();
 }
 
 FIntPoint UInv_InventoryGrid::GetItemDimensions(const FInv_ItemManifest& Manifest) const
