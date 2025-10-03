@@ -6,6 +6,7 @@
 #include "Net/Serialization/FastArraySerializer.h"
 #include "Inv_FastArray.generated.h"
 
+struct FGameplayTag;
 class UInv_ItemComponent;
 class UInv_InventoryComponent;
 class UInv_InventoryItem;
@@ -45,6 +46,7 @@ public:
 	: OwnerComponent(InOwnerComponent) {}
 
 	TArray<UInv_InventoryItem*> GetAllItems() const;
+	UInv_InventoryItem* FindFirstItemByType(const FGameplayTag& ItemType);
 
 	//~ Begin FFastArraySerializer
 	void PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize);

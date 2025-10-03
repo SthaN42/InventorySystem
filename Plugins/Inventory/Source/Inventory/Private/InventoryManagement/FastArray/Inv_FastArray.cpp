@@ -21,6 +21,15 @@ TArray<UInv_InventoryItem*> FInv_InventoryFastArray::GetAllItems() const
 	return OutItems;
 }
 
+UInv_InventoryItem* FInv_InventoryFastArray::FindFirstItemByType(const FGameplayTag& ItemType)
+{
+	auto* FoundItem = Entries.FindByPredicate([ItemType](const FInv_InventoryEntry& Entry)
+	{
+		return IsValid(Entry.Item) && Entry.Item->GetItemManifest().GetItemType().MatchesTagExact(ItemType);
+	});
+	return FoundItem ? FoundItem->Item : nullptr;
+}
+
 void FInv_InventoryFastArray::PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize)
 {
 	const UInv_InventoryComponent* IC = Cast<UInv_InventoryComponent>(OwnerComponent);
