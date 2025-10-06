@@ -23,11 +23,17 @@ public:
 	FInv_ItemManifest& GetItemManifest() { return ItemManifest.GetMutable<FInv_ItemManifest>(); }
 	void SetItemManifest(const FInv_ItemManifest& Manifest);
 
+	int32 GetTotalStackCount() const { return TotalStackCount; }
+	void SetTotalStackCount(const int32 NewStackCount) { TotalStackCount = NewStackCount; }
+
 	bool IsStackable() const;
 
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BaseStruct = "/Script/Inventory.Inv_ItemManifest"), Replicated)
 	FInstancedStruct ItemManifest;
+
+	UPROPERTY(Replicated)
+	int32 TotalStackCount{0};
 };
 
 template <typename FragmentType>
