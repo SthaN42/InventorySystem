@@ -75,6 +75,7 @@ public:
 	int32 GetMaxStackSize() const { return MaxStackSize; }
 	
 	int32 GetStackCount() const { return StackCount; }
+	void SetStackCount(const int32 Count) { StackCount = Count; }
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
