@@ -308,7 +308,7 @@ void UInv_InventoryGrid::AssignHoverItem(UInv_InventoryItem* InventoryItem, cons
 {
 	AssignHoverItem(InventoryItem);
 
-	HoverItem->SetPreviousGridIndex(GridIndex);
+	HoverItem->SetPreviousGridIndex(PreviousGridIndex);
 	HoverItem->UpdateStackCount(InventoryItem->IsStackable() ? GridSlots[GridIndex]->GetStackCount() : 0);
 }
 
