@@ -20,4 +20,7 @@ public:
 
 	UFUNCTION()
 	static FIntPoint GetPositionFromIndex(const int32 Index, const int32 Columns);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	static FVector2D GetWidgetPosition(UWidget* Widget);
 };
