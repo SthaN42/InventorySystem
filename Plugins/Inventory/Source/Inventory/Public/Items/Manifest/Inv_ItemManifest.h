@@ -19,7 +19,6 @@ struct INVENTORY_API FInv_ItemManifest
 {
 	GENERATED_BODY()
 
-public:
 	UInv_InventoryItem* Manifest(UObject* NewOuter);
 	
 	EInv_ItemCategory GetItemCategory() const { return ItemCategory; }

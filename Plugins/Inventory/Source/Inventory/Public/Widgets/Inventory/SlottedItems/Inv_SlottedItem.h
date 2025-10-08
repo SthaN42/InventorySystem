@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CrossCompilerCommon.h"
 #include "Blueprint/UserWidget.h"
 #include "Inv_SlottedItem.generated.h"
 

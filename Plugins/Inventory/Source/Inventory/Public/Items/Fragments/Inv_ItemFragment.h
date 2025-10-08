@@ -14,7 +14,6 @@ struct FInv_ItemFragment
 {
 	GENERATED_BODY()
 
-public:
 	FInv_ItemFragment() {}
 	FInv_ItemFragment(const FInv_ItemFragment&) = default;
 	FInv_ItemFragment& operator=(const FInv_ItemFragment&) = default;
@@ -35,7 +34,6 @@ struct FInv_GridFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
 
-public:
 	FIntPoint GetGridSize() const { return GridSize; }
 	void SetGridSize(const FIntPoint& Size) { GridSize = Size; }
 
@@ -55,7 +53,6 @@ struct FInv_ImageFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
 
-public:
 	UTexture2D* GetIcon() const { return Icon; }
 
 private:
@@ -71,7 +68,6 @@ struct FInv_StackableFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
 
-public:
 	int32 GetMaxStackSize() const { return MaxStackSize; }
 	
 	int32 GetStackCount() const { return StackCount; }
