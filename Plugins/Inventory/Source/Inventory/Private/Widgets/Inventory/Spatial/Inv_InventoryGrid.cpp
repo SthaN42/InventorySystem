@@ -63,11 +63,20 @@ void UInv_InventoryGrid::OnTileParametersUpdated(const FInv_TileParameters& Para
 
 	// Calculate the starting coordinates for highlighting
 	const FIntPoint StartingCoordinates = CalculateStatingCoordinates(Parameters.TileCoordinates, Dimensions, Parameters.TileQuadrant);
+	ItemDropIndex = UInv_WidgetUtils::GetIndexFromPosition(StartingCoordinates, Columns);
 
-	// Check hover position
-		// In the grid bounds?
-		// Any items in the way?
-		// If so, is there only one item in the way? (can we swap?)
+	CurrentQueryResult = CheckHoverPosition(StartingCoordinates, Dimensions);
+}
+
+FInv_SpaceQueryResult UInv_InventoryGrid::CheckHoverPosition(const FIntPoint& Position,	const FIntPoint& Dimensions) const
+{
+	FInv_SpaceQueryResult Result;
+
+	// In the grid bounds?
+	// Any items in the way?
+	// If so, is there only one item in the way? (can we swap?)
+
+	return Result;
 }
 
 FIntPoint UInv_InventoryGrid::CalculateStatingCoordinates(const FIntPoint& Coordinates, const FIntPoint& Dimensions, const EInv_TileQuadrant Quadrant) const
