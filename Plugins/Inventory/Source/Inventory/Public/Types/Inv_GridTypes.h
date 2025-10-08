@@ -18,7 +18,6 @@ struct FInv_SlotAvailability
 {
 	GENERATED_BODY()
 
-public:
 	FInv_SlotAvailability() {}
 	FInv_SlotAvailability(int32 ItemIndex, int32 Room, bool bHasItem)
 	: Index(ItemIndex), AmountToFill(Room), bItemAtIndex(bHasItem) {}
@@ -33,7 +32,6 @@ struct FInv_SlotAvailabilityResult
 {
 	GENERATED_BODY()
 
-public:
 	FInv_SlotAvailabilityResult() {}
 
 	TWeakObjectPtr<UInv_InventoryItem> Item;
@@ -58,7 +56,6 @@ struct FInv_TileParameters
 {
 	GENERATED_BODY()
 
-public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Inventory")
 	FIntPoint TileCoordinates{};
 
