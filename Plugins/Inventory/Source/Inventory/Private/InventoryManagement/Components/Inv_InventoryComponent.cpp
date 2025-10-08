@@ -71,8 +71,6 @@ void UInv_InventoryComponent::Server_AddStacksToItem_Implementation(UInv_ItemCom
 
 	Item->SetTotalStackCount(Item->GetTotalStackCount() + StackCount);
 
-	// TODO: Destroy the item if the Remainder is zero.
-	// Otherwise, update the stack count for the item pickup.
 	if (Remainder == 0)
 	{
 		ItemComponent->PickedUp();
