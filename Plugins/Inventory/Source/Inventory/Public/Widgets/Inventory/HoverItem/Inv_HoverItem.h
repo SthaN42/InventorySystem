@@ -36,7 +36,7 @@ public:
 	void SetIsStackable(bool bStacks);
 
 	int32 GetStackCount() const { return StackCount; }
-	void UpdateStackCount(const int32 Count) const;
+	void UpdateStackCount(const int32 Count);
 
 	FGameplayTag GetItemType() const;
 
