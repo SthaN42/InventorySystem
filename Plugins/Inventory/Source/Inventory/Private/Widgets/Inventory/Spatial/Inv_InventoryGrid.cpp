@@ -595,11 +595,17 @@ void UInv_InventoryGrid::OnSlottedItemClicked(int32 GridIndex, const FPointerEve
 	}
 
 	// Do the hovered item and the clicked inventory item share a type, and are they stackable?
-		// Should we swap their stack count?
+	if (IsSameStackable(ClickedInventoryItem))
+	{
+		// Should we swap their stack counts?
 		// Should we consume the hover item's stack?
 		// Should we fill in the stacks of the clicked item? (and not consume the hover item)
 		// Is there no room in the clicked slot?
+		return;
+	}
+
 	// Swap with the hover item.
+	SwapWithHoverItem(ClickedInventoryItem, GridIndex);
 }
 
 void UInv_InventoryGrid::ConstructGrid()
@@ -687,6 +693,28 @@ UUserWidget* UInv_InventoryGrid::GetHiddenCursorWidget()
 		HiddenCursorWidget = CreateWidget<UUserWidget>(GetOwningPlayer(), HiddenCursorWidgetClass);
 	}
 	return HiddenCursorWidget;
+}
+
+bool UInv_InventoryGrid::IsSameStackable(const UInv_InventoryItem* ClickedInventoryItem) const
+{
+	const bool bIsSameItem = ClickedInventoryItem == HoverItem->GetInventoryItem();
+	const bool bIsStackable = ClickedInventoryItem->IsStackable();
+	return bIsSameItem && bIsStackable && HoverItem->GetItemType().MatchesTagExact(ClickedInventoryItem->GetItemManifest().GetItemType());
+}
+
+void UInv_InventoryGrid::SwapWithHoverItem(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex)
+{
+	if (!IsValid(HoverItem)) return;
+
+	UInv_InventoryItem* TempItem = HoverItem->GetInventoryItem();
+	const int32 TempStackCount = HoverItem->GetStackCount();
+	const bool bTempIsStackable = HoverItem->IsStackable();
+
+	// Keep the same previous grid index
+	AssignHoverItem(ClickedInventoryItem, GridIndex, HoverItem->GetPreviousGridIndex());
+	RemoveItemFromGrid(ClickedInventoryItem, GridIndex);
+	AddItemAtIndex(TempItem, ItemDropIndex, bTempIsStackable, TempStackCount);
+	UpdateGridSlots(TempItem, ItemDropIndex, bTempIsStackable, TempStackCount);
 }
 
 void UInv_InventoryGrid::ShowCursor()
