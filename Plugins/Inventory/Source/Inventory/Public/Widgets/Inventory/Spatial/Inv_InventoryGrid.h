@@ -107,16 +107,19 @@ private:
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
 	void CreateItemPopUp(const int32 GridIndex);
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory|Item PopUp")
 	TSubclassOf<UInv_ItemPopUp> ItemPopUpWidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory|Item PopUp")
+	FVector2D ItemPopUpOffset{FVector2D(0, 0)};
 
 	UPROPERTY()
 	TObjectPtr<UInv_ItemPopUp> ItemPopUp;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory|Cursors")
 	TSubclassOf<UUserWidget> VisibleCursorWidgetClass;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory|Cursors")
 	TSubclassOf<UUserWidget> HiddenCursorWidgetClass;
 
 	UPROPERTY()
@@ -139,6 +142,15 @@ private:
 
 	UFUNCTION()
 	void OnGridSlotUnhovered(int32 GridIndex, const FPointerEvent& MouseEvent);
+
+	UFUNCTION()
+	void OnPopUpMenuSplit(int32 SplitAmount, int32 Index);
+
+	UFUNCTION()
+	void OnPopUpMenuDrop(int32 Index);
+
+	UFUNCTION()
+	void OnPopUpMenuConsume(int32 Index);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
 	EInv_ItemCategory ItemCategory;

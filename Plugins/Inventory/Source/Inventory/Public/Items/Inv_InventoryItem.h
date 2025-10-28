@@ -27,6 +27,7 @@ public:
 	void SetTotalStackCount(const int32 NewStackCount) { TotalStackCount = NewStackCount; }
 
 	bool IsStackable() const;
+	bool IsConsumable() const;
 
 private:
 	UPROPERTY(VisibleAnywhere, meta = (BaseStruct = "/Script/Inventory.Inv_ItemManifest"), Replicated)
