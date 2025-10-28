@@ -7,7 +7,7 @@
 #include "Types/Inv_GridTypes.h"
 #include "Inv_InventoryGrid.generated.h"
 
-class UInv_ItemPopup;
+class UInv_ItemPopUp;
 enum class EInv_GridSlotState : uint8;
 class UInv_HoverItem;
 struct FGameplayTag;
@@ -108,10 +108,10 @@ private:
 	void CreateItemPopUp(const int32 GridIndex);
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
-	TSubclassOf<UInv_ItemPopup> ItemPopUpWidgetClass;
+	TSubclassOf<UInv_ItemPopUp> ItemPopUpWidgetClass;
 
 	UPROPERTY()
-	TObjectPtr<UInv_ItemPopup> ItemPopUp;
+	TObjectPtr<UInv_ItemPopUp> ItemPopUp;
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TSubclassOf<UUserWidget> VisibleCursorWidgetClass;

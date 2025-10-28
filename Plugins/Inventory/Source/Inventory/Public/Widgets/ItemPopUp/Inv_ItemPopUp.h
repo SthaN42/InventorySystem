@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Inv_ItemPopup.generated.h"
+#include "Inv_ItemPopUp.generated.h"
 
 class USizeBox;
 class UTextBlock;
@@ -18,7 +18,7 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FPopUpMenuButtonClicked, int32, Index);
  * The item popup widget shows up when right-clicking on an item in the inventory grid.
  */
 UCLASS()
-class INVENTORY_API UInv_ItemPopup : public UUserWidget
+class INVENTORY_API UInv_ItemPopUp : public UUserWidget
 {
 	GENERATED_BODY()
 
