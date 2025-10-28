@@ -7,6 +7,7 @@
 #include "Types/Inv_GridTypes.h"
 #include "Inv_InventoryGrid.generated.h"
 
+class UInv_ItemPopup;
 enum class EInv_GridSlotState : uint8;
 class UInv_HoverItem;
 struct FGameplayTag;
@@ -41,8 +42,11 @@ public:
 	void ShowCursor();
 	void HideCursor();
 
+	void SetOwningCanvas(UCanvasPanel* OwningCanvas);
+
 private:
 	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
+	TWeakObjectPtr<UCanvasPanel> OwningCanvasPanel;
 	
 	void ConstructGrid();
 	
@@ -101,6 +105,13 @@ private:
 	void ConsumeHoverItemStacks(const int32 ClickedStackCount, const int32 AmountToTransfer, const int32 Index);
 	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
+	void CreateItemPopUp(const int32 GridIndex);
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UInv_ItemPopup> ItemPopUpWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UInv_ItemPopup> ItemPopUp;
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TSubclassOf<UUserWidget> VisibleCursorWidgetClass;
