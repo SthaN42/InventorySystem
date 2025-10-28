@@ -646,8 +646,10 @@ void UInv_InventoryGrid::CreateItemPopUp(const int32 GridIndex)
 {
 	UInv_InventoryItem* RightCLickedItem = GridSlots[GridIndex]->GetInventoryItem().Get();
 	if (!IsValid(RightCLickedItem)) return;
+	if (IsValid(GridSlots[GridIndex]->GetItemPopUp())) return;
 
-	ItemPopUp = CreateWidget<UInv_ItemPopup>(this, ItemPopUpWidgetClass);
+	ItemPopUp = CreateWidget<UInv_ItemPopUp>(this, ItemPopUpWidgetClass);
+	GridSlots[GridIndex]->SetItemPopUp(ItemPopUp);
 
 	OwningCanvasPanel->AddChild(ItemPopUp);
 	UCanvasPanelSlot* CanvasSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(ItemPopUp);

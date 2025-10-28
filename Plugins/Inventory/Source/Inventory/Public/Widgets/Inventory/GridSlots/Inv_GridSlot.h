@@ -49,8 +49,8 @@ public:
 	TWeakObjectPtr<UInv_InventoryItem> GetInventoryItem() const { return InventoryItem; }
 	void SetInventoryItem(UInv_InventoryItem* Item);
 
-	bool IsAvailable() const { return bAvailable; }
-	void SetIsAvailable(const bool bIsAvailable) { bAvailable = bIsAvailable; }
+	UInv_ItemPopUp* GetItemPopUp() const;
+	void SetItemPopUp(UInv_ItemPopUp* PopUp);
 
 	EInv_GridSlotState GetGridSlotState() const { return GridSlotState; }
 
@@ -67,7 +67,7 @@ private:
 	int32 TileIndex{INDEX_NONE};
 	int32 UpperLeftIndex{INDEX_NONE};
 	TWeakObjectPtr<UInv_InventoryItem> InventoryItem;
-	bool bAvailable{true};
+	TWeakObjectPtr<UInv_ItemPopUp> ItemPopUp;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> Image_GridSlot;
@@ -86,4 +86,7 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "Inventory")
 	EInv_GridSlotState GridSlotState;
+
+	UFUNCTION()
+	void OnItemPopUpDestruct(UUserWidget* Menu);
 };
