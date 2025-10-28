@@ -7,6 +7,7 @@
 #include "Types/Inv_GridTypes.h"
 #include "Inv_InventoryGrid.generated.h"
 
+class UInv_ItemPopUp;
 enum class EInv_GridSlotState : uint8;
 class UInv_HoverItem;
 struct FGameplayTag;
@@ -41,8 +42,11 @@ public:
 	void ShowCursor();
 	void HideCursor();
 
+	void SetOwningCanvas(UCanvasPanel* OwningCanvas);
+
 private:
 	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
+	TWeakObjectPtr<UCanvasPanel> OwningCanvasPanel;
 	
 	void ConstructGrid();
 	
@@ -101,11 +105,21 @@ private:
 	void ConsumeHoverItemStacks(const int32 ClickedStackCount, const int32 AmountToTransfer, const int32 Index);
 	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
+	void CreateItemPopUp(const int32 GridIndex);
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory|Item PopUp")
+	TSubclassOf<UInv_ItemPopUp> ItemPopUpWidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory|Item PopUp")
+	FVector2D ItemPopUpOffset{FVector2D(0, 0)};
+
+	UPROPERTY()
+	TObjectPtr<UInv_ItemPopUp> ItemPopUp;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory|Cursors")
 	TSubclassOf<UUserWidget> VisibleCursorWidgetClass;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory|Cursors")
 	TSubclassOf<UUserWidget> HiddenCursorWidgetClass;
 
 	UPROPERTY()
@@ -128,6 +142,15 @@ private:
 
 	UFUNCTION()
 	void OnGridSlotUnhovered(int32 GridIndex, const FPointerEvent& MouseEvent);
+
+	UFUNCTION()
+	void OnPopUpMenuSplit(int32 SplitAmount, int32 Index);
+
+	UFUNCTION()
+	void OnPopUpMenuDrop(int32 Index);
+
+	UFUNCTION()
+	void OnPopUpMenuConsume(int32 Index);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
 	EInv_ItemCategory ItemCategory;
