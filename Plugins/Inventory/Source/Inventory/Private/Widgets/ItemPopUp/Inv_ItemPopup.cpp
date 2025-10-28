@@ -16,16 +16,33 @@ void UInv_ItemPopup::NativeOnInitialized()
 	Slider_Split->OnValueChanged.AddDynamic(this, &ThisClass::SliderValueChanged);
 }
 
+int32 UInv_ItemPopup::GetSplitAmount() const
+{
+	return FMath::Floor(Slider_Split->GetValue());
+}
+
 void UInv_ItemPopup::SplitButtonClicked()
 {
+	if (OnSplit.ExecuteIfBound(GetSplitAmount(), GridIndex))
+	{
+		RemoveFromParent();
+	}
 }
 
 void UInv_ItemPopup::DropButtonClicked()
 {
+	if (OnDrop.ExecuteIfBound(GridIndex))
+	{
+		RemoveFromParent();
+	}
 }
 
 void UInv_ItemPopup::ConsumeButtonClicked()
 {
+	if (OnConsume.ExecuteIfBound(GridIndex))
+	{
+		RemoveFromParent();
+	}
 }
 
 void UInv_ItemPopup::SliderValueChanged(float Value)
