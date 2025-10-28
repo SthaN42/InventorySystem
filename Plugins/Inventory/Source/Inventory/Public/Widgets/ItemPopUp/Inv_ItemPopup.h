@@ -24,8 +24,19 @@ class INVENTORY_API UInv_ItemPopup : public UUserWidget
 
 public:
 	virtual void NativeOnInitialized() override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+
+	void CollapseSplitButton() const;
+	void CollapseConsumeButton() const;
+
+	void SetSliderParams(const float Max, const float Value) const;
 
 	int32 GetSplitAmount() const;
+
+	FVector2D GetBoxSize() const;
+
+	void SetGridIndex(const int32 Index) { GridIndex = Index; }
+	int32 GetGridIndex() const { return GridIndex; }
 
 	FPopUpMenuSplit OnSplit;
 	FPopUpMenuButtonClicked OnDrop;
