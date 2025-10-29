@@ -65,6 +65,21 @@ private:
 	UPROPERTY()
 	TObjectPtr<UInv_InventoryBase> InventoryMenu;
 
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnDistanceMin = 10.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnDistanceMax = 50.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnAngleMin = -45.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnAngleMax = 45.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropRelativeSpawnElevation = -70.f;
+
 	bool bInventoryMenuOpen = false;
 	void OpenInventoryMenu();
 	void CloseInventoryMenu();
