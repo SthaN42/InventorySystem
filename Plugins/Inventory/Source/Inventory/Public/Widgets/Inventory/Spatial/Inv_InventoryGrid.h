@@ -37,6 +37,8 @@ public:
 	UFUNCTION()
 	void AddItem(UInv_InventoryItem* Item);
 
+	void DropItem();
+
 	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_ItemComponent* ItemComponent);
 
 	void ShowCursor();
@@ -106,7 +108,6 @@ private:
 	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
 	void CreateItemPopUp(const int32 GridIndex);
-	void DropItem();
 
 	UPROPERTY(EditAnywhere, Category = "Inventory|Item PopUp")
 	TSubclassOf<UInv_ItemPopUp> ItemPopUpWidgetClass;

@@ -602,7 +602,7 @@ void UInv_InventoryGrid::OnSlottedItemClicked(int32 GridIndex, const FPointerEve
 	}
 
 	// Do the hovered item and the clicked inventory item share a type, and are they stackable?
-	if (IsSameStackable(ClickedInventoryItem))
+	if (IsValid(HoverItem) && IsSameStackable(ClickedInventoryItem))
 	{
 		const int32 ClickedStackCount = GridSlots[GridIndex]->GetStackCount();
 		const FInv_StackableFragment* StackableFragment = ClickedInventoryItem->GetItemManifest().GetFragmentOfType<FInv_StackableFragment>();
