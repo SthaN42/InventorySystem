@@ -41,7 +41,7 @@ public:
 
 	void ToggleInventoryMenu();
 	void AddRepSubObj(UObject* SubObj);
-	void SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount);
+	void SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount) const;
 
 	FInventoryItemChange OnItemAdded;
 	FInventoryItemChange OnItemRemoved;
