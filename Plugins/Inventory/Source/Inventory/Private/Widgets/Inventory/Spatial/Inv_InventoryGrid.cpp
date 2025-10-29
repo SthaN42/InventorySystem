@@ -685,7 +685,7 @@ void UInv_InventoryGrid::DropItem()
 	if (!IsValid(HoverItem)) return;
 	if (!IsValid(HoverItem->GetInventoryItem())) return;
 
-	//TODO: Tell the server to actually drop the item
+	InventoryComponent->Server_DropItem(HoverItem->GetInventoryItem(), HoverItem->GetStackCount());
 
 	ClearHoverItem();
 }

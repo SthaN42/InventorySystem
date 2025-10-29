@@ -9,6 +9,7 @@
 UInv_ItemComponent::UInv_ItemComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+	SetIsReplicatedByDefault(true);
 
 	PickupMessage = FString(TEXT("E - Pick Up"));
 }
