@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
+#include "Inv_FragmentTags.h"
 #include "Inv_ItemFragment.generated.h"
 
 /**
@@ -34,6 +35,11 @@ struct FInv_GridFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
 
+	FInv_GridFragment()
+	{
+		SetFragmentTag(FragmentTags::GridFragment);
+	}
+
 	FIntPoint GetGridSize() const { return GridSize; }
 	void SetGridSize(const FIntPoint& Size) { GridSize = Size; }
 
@@ -53,6 +59,11 @@ struct FInv_ImageFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
 
+	FInv_ImageFragment()
+	{
+		SetFragmentTag(FragmentTags::IconFragment);
+	}
+
 	UTexture2D* GetIcon() const { return Icon; }
 
 private:
@@ -67,6 +78,11 @@ USTRUCT(BlueprintType, DisplayName = "Stackable Fragment")
 struct FInv_StackableFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
+
+	FInv_StackableFragment()
+	{
+		SetFragmentTag(FragmentTags::StackableFragment);
+	}
 
 	int32 GetMaxStackSize() const { return MaxStackSize; }
 	
@@ -85,6 +101,11 @@ USTRUCT(BlueprintType, DisplayName = "Consumable Fragment")
 struct FInv_ConsumableFragment : public FInv_ItemFragment
 {
 	GENERATED_BODY()
+
+	FInv_ConsumableFragment()
+	{
+		SetFragmentTag(FragmentTags::ConsumableFragment);
+	}
 
 	virtual void OnConsume(APlayerController* PC) {}
 };
