@@ -5,6 +5,7 @@
 
 #include "InventoryManagement/Components/Inv_InventoryComponent.h"
 #include "Items/Components/Inv_ItemComponent.h"
+#include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
 
 UInv_InventoryComponent* UInv_InventoryStatics::GetInventoryComponent(const APlayerController* PlayerController)
 {
@@ -18,4 +19,28 @@ EInv_ItemCategory UInv_InventoryStatics::GetItemCategoryFromItemComp(const UInv_
 	if (!IsValid(ItemComp)) return EInv_ItemCategory::None;
 
 	return ItemComp->GetItemManifest().GetItemCategory();
+}
+
+void UInv_InventoryStatics::ItemHovered(APlayerController* PC, UInv_InventoryItem* Item)
+{
+	const UInv_InventoryComponent* IC = GetInventoryComponent(PC);
+	if (!IsValid(IC)) return;
+
+	UInv_InventoryBase* InventoryBase = IC->GetInventoryMenu();
+	if (!IsValid(InventoryBase)) return;
+
+	if (InventoryBase->HasHoverItem()) return;
+
+	InventoryBase->OnItemHover(Item);
+}
+
+void UInv_InventoryStatics::ItemUnHovered(APlayerController* PC)
+{
+	const UInv_InventoryComponent* IC = GetInventoryComponent(PC);
+	if (!IsValid(IC)) return;
+
+	UInv_InventoryBase* InventoryBase = IC->GetInventoryMenu();
+	if (!IsValid(InventoryBase)) return;
+
+	InventoryBase->OnItemUnHover();
 }

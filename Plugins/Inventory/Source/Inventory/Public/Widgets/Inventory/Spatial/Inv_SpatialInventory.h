@@ -22,6 +22,9 @@ public:
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_ItemComponent* ItemComponent) const override;
+	virtual void OnItemHover(UInv_InventoryItem* Item) override;
+	virtual void OnItemUnHover() override;
+	virtual bool HasHoverItem() const override;
 
 private:
 	UPROPERTY(meta = (BindWidget))

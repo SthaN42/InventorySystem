@@ -328,6 +328,11 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const UInv_ItemCo
 	return HasRoomForItem(ItemComponent->GetItemManifest());
 }
 
+bool UInv_InventoryGrid::HasHoverItem() const
+{
+	return IsValid(HoverItem);
+}
+
 FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const UInv_InventoryItem* Item)
 {
 	return HasRoomForItem(Item->GetItemManifest());

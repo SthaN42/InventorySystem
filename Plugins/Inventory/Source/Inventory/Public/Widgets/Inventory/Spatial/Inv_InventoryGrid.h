@@ -40,6 +40,7 @@ public:
 	void DropItem();
 
 	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_ItemComponent* ItemComponent);
+	bool HasHoverItem() const;
 
 	void ShowCursor();
 	void HideCursor();

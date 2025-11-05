@@ -46,6 +46,24 @@ FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemCompo
 	}
 }
 
+void UInv_SpatialInventory::OnItemHover(UInv_InventoryItem* Item)
+{
+	Super::OnItemHover(Item);
+}
+
+void UInv_SpatialInventory::OnItemUnHover()
+{
+	Super::OnItemUnHover();
+}
+
+bool UInv_SpatialInventory::HasHoverItem() const
+{
+	if (Grid_Equippables->HasHoverItem()) return true;
+	if (Grid_Consumables->HasHoverItem()) return true;
+	if (Grid_Craftables->HasHoverItem()) return true;
+	return false;
+}
+
 void UInv_SpatialInventory::ShowEquippables()
 {
 	SetActiveGrid(Grid_Equippables, Button_Equippables);
