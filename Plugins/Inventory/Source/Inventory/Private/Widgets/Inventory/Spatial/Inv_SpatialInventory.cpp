@@ -5,9 +5,11 @@
 
 #include "Inventory.h"
 #include "Components/Button.h"
+#include "Components/CanvasPanel.h"
 #include "Components/WidgetSwitcher.h"
 #include "InventoryManagement/Utils/Inv_InventoryStatics.h"
 #include "Widgets/Inventory/Spatial/Inv_InventoryGrid.h"
+#include "Widgets/ItemDescription/Inv_ItemDescription.h"
 
 void UInv_SpatialInventory::NativeOnInitialized()
 {
@@ -46,14 +48,26 @@ FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemCompo
 	}
 }
 
-void UInv_SpatialInventory::OnItemHover(UInv_InventoryItem* Item)
+void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* Item)
 {
-	Super::OnItemHover(Item);
+	UInv_ItemDescription* DescriptionWidget = GetItemDescription();
+	DescriptionWidget->SetVisibility(ESlateVisibility::Collapsed);
+
+	GetOwningPlayer()->GetWorldTimerManager().ClearTimer(DescriptionTimer);
+
+	FTimerDelegate DescriptionTimerDelegate;
+	DescriptionTimerDelegate.BindLambda([this]()
+	{
+		GetItemDescription()->SetVisibility(ESlateVisibility::HitTestInvisible);
+	});
+
+	GetOwningPlayer()->GetWorldTimerManager().SetTimer(DescriptionTimer, DescriptionTimerDelegate, DescriptionTimerDelay, false);
 }
 
-void UInv_SpatialInventory::OnItemUnHover()
+void UInv_SpatialInventory::OnItemUnHovered()
 {
-	Super::OnItemUnHover();
+	GetOwningPlayer()->GetWorldTimerManager().ClearTimer(DescriptionTimer);
+	GetItemDescription()->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 bool UInv_SpatialInventory::HasHoverItem() const
@@ -62,6 +76,16 @@ bool UInv_SpatialInventory::HasHoverItem() const
 	if (Grid_Consumables->HasHoverItem()) return true;
 	if (Grid_Craftables->HasHoverItem()) return true;
 	return false;
+}
+
+UInv_ItemDescription* UInv_SpatialInventory::GetItemDescription()
+{
+	if (!IsValid(ItemDescription))
+	{
+		ItemDescription = CreateWidget<UInv_ItemDescription>(GetOwningPlayer(), ItemDescriptionClass);
+		CanvasPanel->AddChild(ItemDescription);
+	}
+	return ItemDescription;
 }
 
 void UInv_SpatialInventory::ShowEquippables()
