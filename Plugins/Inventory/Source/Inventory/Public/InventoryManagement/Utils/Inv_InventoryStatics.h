@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Items/Inv_InventoryItem.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Types/Inv_GridTypes.h"
 #include "Widgets/Utils/Inv_WidgetUtils.h"
@@ -27,6 +28,12 @@ public:
 
 	template <typename T, typename FuncT>
 	static void ForEach2D(TArray<T>& Array, const int32 Index, const FIntPoint& Range2D, const int32 GridColumns, const FuncT& Function);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	static void ItemHovered(APlayerController* PC, UInv_InventoryItem* Item);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	static void ItemUnHovered(APlayerController* PC);
 };
 
 template <typename T, typename FuncT>
