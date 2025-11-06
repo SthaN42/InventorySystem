@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "UInv_ItemDescription.generated.h"
+#include "Inv_ItemDescription.generated.h"
 
 class USizeBox;
 /**
  * 
  */
 UCLASS()
-class INVENTORY_API UUInv_ItemDescription : public UUserWidget
+class INVENTORY_API UInv_ItemDescription : public UUserWidget
 {
 	GENERATED_BODY()
 
