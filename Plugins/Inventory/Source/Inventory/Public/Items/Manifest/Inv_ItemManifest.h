@@ -8,6 +8,7 @@
 #include "StructUtils/InstancedStruct.h"
 #include "Inv_ItemManifest.generated.h"
 
+class UInv_CompositeBase;
 struct FInv_ItemFragment;
 
 /**
@@ -19,10 +20,12 @@ struct INVENTORY_API FInv_ItemManifest
 {
 	GENERATED_BODY()
 
-	UInv_InventoryItem* Manifest(UObject* NewOuter);
-	
+	UInv_InventoryItem* Manifest(UObject* NewOuter) const;
+
 	EInv_ItemCategory GetItemCategory() const { return ItemCategory; }
 	FGameplayTag GetItemType() const { return ItemType; }
+
+	void AssimilateInventoryFragments(UInv_CompositeBase* Composite) const;
 
 	template <typename T> requires std::derived_from<T, FInv_ItemFragment>
 	const T* GetFragmentOfTypeWithTag(const FGameplayTag& FragmentTag) const;
@@ -33,7 +36,10 @@ struct INVENTORY_API FInv_ItemManifest
 	template <typename T> requires std::derived_from<T, FInv_ItemFragment>
 	T* GetFragmentOfTypeMutable();
 
-	void SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation);
+	template <typename T> requires std::derived_from<T, FInv_ItemFragment>
+	TArray<const T*> GetAllFragmentsOfType() const;
+
+	void SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation) const;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
@@ -79,7 +85,8 @@ const T* FInv_ItemManifest::GetFragmentOfType() const
 	return nullptr;
 }
 
-template <typename T> requires std::derived_from<T, FInv_ItemFragment>
+template <typename T>
+requires std::derived_from<T, FInv_ItemFragment>
 T* FInv_ItemManifest::GetFragmentOfTypeMutable()
 {
 	for (TInstancedStruct<FInv_ItemFragment>& Fragment : Fragments)
@@ -90,4 +97,19 @@ T* FInv_ItemManifest::GetFragmentOfTypeMutable()
 		}
 	}
 	return nullptr;
+}
+
+template <typename T>
+requires std::derived_from<T, FInv_ItemFragment>
+TArray<const T*> FInv_ItemManifest::GetAllFragmentsOfType() const
+{
+	TArray<const T*> Result;
+	for (const TInstancedStruct<FInv_ItemFragment>& Fragment : Fragments)
+	{
+		if (const T* FragmentPtr = Fragment.GetPtr<T>())
+		{
+			Result.Add(FragmentPtr);
+		}
+	}
+	return Result;
 }

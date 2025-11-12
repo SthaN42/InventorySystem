@@ -4,8 +4,9 @@
 
 #include "Items/Inv_InventoryItem.h"
 #include "Items/Components/Inv_ItemComponent.h"
+#include "Items/Fragments/Inv_ItemFragment.h"
 
-UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter)
+UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter) const
 {
 	UInv_InventoryItem* Item = NewObject<UInv_InventoryItem>(NewOuter, UInv_InventoryItem::StaticClass());
 	Item->SetItemManifest(*this);
@@ -13,7 +14,19 @@ UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter)
 	return Item;
 }
 
-void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation)
+void FInv_ItemManifest::AssimilateInventoryFragments(UInv_CompositeBase* Composite) const
+{
+	const auto& InventoryItemFragments = GetAllFragmentsOfType<FInv_InventoryItemFragment>();
+	for (const auto* Fragment : InventoryItemFragments)
+	{
+		Composite->ApplyFunction([Fragment](UInv_CompositeBase* Widget)
+		{
+			Fragment->Assimilate(Widget);
+		});
+	}
+}
+
+void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation) const
 {
 	if (!IsValid(PickupActorClass) || !IsValid(WorldContextObject)) return;
 
