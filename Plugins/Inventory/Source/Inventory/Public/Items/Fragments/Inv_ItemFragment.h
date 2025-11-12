@@ -71,7 +71,7 @@ private:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Image Fragment")
-struct FInv_ImageFragment : public FInv_ItemFragment
+struct FInv_ImageFragment : public FInv_InventoryItemFragment
 {
 	GENERATED_BODY()
 
@@ -81,6 +81,8 @@ struct FInv_ImageFragment : public FInv_ItemFragment
 	}
 
 	UTexture2D* GetIcon() const { return Icon; }
+
+	virtual void Assimilate(UInv_CompositeBase* Composite) const override;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
