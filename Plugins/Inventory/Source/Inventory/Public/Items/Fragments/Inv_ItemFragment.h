@@ -6,6 +6,7 @@
 #include "GameplayTagContainer.h"
 #include "Inv_FragmentTags.h"
 #include "Widgets/Composite/Inv_CompositeBase.h"
+#include "Windows/WindowsApplication.h"
 #include "Inv_ItemFragment.generated.h"
 
 class UInv_CompositeBase;
@@ -90,6 +91,21 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FVector2D IconSize{44.f, 44.f};
+};
+
+USTRUCT(BlueprintType, DisplayName = "Text Fragment")
+struct FInv_TextFragment : public FInv_InventoryItemFragment
+{
+	GENERATED_BODY()
+
+	FText GetText() const { return FragmentText; }
+	void SetText(const FText& Text) { FragmentText = Text; }
+
+	virtual void Assimilate(UInv_CompositeBase* Composite) const override;
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FText FragmentText;
 };
 
 USTRUCT(BlueprintType, DisplayName = "Stackable Fragment")
