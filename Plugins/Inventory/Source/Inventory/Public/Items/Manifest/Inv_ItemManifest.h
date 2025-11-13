@@ -20,10 +20,11 @@ struct INVENTORY_API FInv_ItemManifest
 {
 	GENERATED_BODY()
 
-	UInv_InventoryItem* Manifest(UObject* NewOuter) const;
+	UInv_InventoryItem* Manifest(UObject* NewOuter);
 
 	EInv_ItemCategory GetItemCategory() const { return ItemCategory; }
 	FGameplayTag GetItemType() const { return ItemType; }
+	TArray<TInstancedStruct<FInv_ItemFragment>>& GetFragmentsMutable() { return Fragments; }
 
 	void AssimilateInventoryFragments(UInv_CompositeBase* Composite) const;
 
@@ -42,6 +43,8 @@ struct INVENTORY_API FInv_ItemManifest
 	void SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation) const;
 
 private:
+	void ClearFragments();
+
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	EInv_ItemCategory ItemCategory{EInv_ItemCategory::None};
 

@@ -25,6 +25,8 @@ struct FInv_ItemFragment
 	FInv_ItemFragment& operator=(FInv_ItemFragment&&) = default;
 	virtual ~FInv_ItemFragment() {}
 
+	virtual void Manifest() {}
+
 	FGameplayTag GetFragmentTag() const { return FragmentTag; }
 	void SetFragmentTag(FGameplayTag Tag) { FragmentTag = Tag; }
 
@@ -105,7 +107,46 @@ struct FInv_TextFragment : public FInv_InventoryItemFragment
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
-	FText FragmentText;
+	FText FragmentText{};
+};
+
+USTRUCT(BlueprintType, DisplayName = "Labeled Number Fragment")
+struct FInv_LabeledNumberFragment : public FInv_InventoryItemFragment
+{
+	GENERATED_BODY()
+
+	virtual void Manifest() override;
+	virtual void Assimilate(UInv_CompositeBase* Composite) const override;
+
+	// When manifesting the first time, this fragment will randomize. However, once equipped
+	// and dropped, an item should retain the same value, so randomization should not occur.
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (DisplayAfter = "bCollapseValue", EditCondition = "!bCollapseValue", EditConditionHides))
+	bool bRandomizeValueOnManifest{true};
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Inventory|Label")
+	bool bCollapseLabel{false};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory|Label", meta = (EditCondition = "!bCollapseLabel"))
+	FText Text_Label{};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	bool bCollapseValue{false};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (EditCondition = "!bCollapseValue && !bRandomizeValueOnManifest"))
+	float Value{0.f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (EditCondition = "!bCollapseValue && bRandomizeValueOnManifest", EditConditionHides))
+	float Min{0.f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (EditCondition = "!bCollapseValue && bRandomizeValueOnManifest", EditConditionHides))
+	float Max{0.f};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (EditCondition = "!bCollapseValue", EditConditionHides))
+	int32 MinFractionalDigits{1};
+
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (EditCondition = "!bCollapseValue", EditConditionHides))
+	int32 MaxFractionalDigits{1};
 };
 
 USTRUCT(BlueprintType, DisplayName = "Stackable Fragment")
