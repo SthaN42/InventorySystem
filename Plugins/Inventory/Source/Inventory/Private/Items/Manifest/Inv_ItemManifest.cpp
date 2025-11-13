@@ -21,6 +21,7 @@ UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter)
 
 void FInv_ItemManifest::AssimilateInventoryFragments(UInv_CompositeBase* Composite) const
 {
+	Composite->Collapse();
 	const auto& InventoryItemFragments = GetAllFragmentsOfType<FInv_InventoryItemFragment>();
 	for (const auto* Fragment : InventoryItemFragments)
 	{
